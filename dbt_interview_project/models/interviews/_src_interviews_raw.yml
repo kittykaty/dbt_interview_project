@@ -1,0 +1,42 @@
+sources:
+  - name: interviews
+    database: dbt_project_db
+    schema: raw
+    description: A clone of a Snowflake interviews database
+    config:
+      freshness:
+        warn_after:
+          count: 15
+          period: day
+        error_after:
+          count: 20
+          period: day
+    tables:
+      - name: candidates # make it warn
+        description: Raw candidates data
+        config:
+          freshness: 
+            warn_after:
+              count: 5
+              period: day
+            error_after:
+              count: 15
+              period: day
+      - name: employees
+        description: Raw employees data
+      - name: interviews   # make it error
+        description: Raw interviews data
+        config:
+          freshness: 
+            warn_after:
+              count: 3
+              period: day
+            error_after:
+              count: 5
+              period: day   
+      - name: job_functions
+        description: Raw job_functions data
+        freshness: null
+      - name: skills
+        description: Raw skills data
+        freshness: null

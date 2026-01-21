@@ -1,0 +1,13 @@
+SELECT
+    CAST(_OFFSET AS BIGINT) AS offset,
+    CAST(JOB_FUNCTION_ID AS VARCHAR(500)) AS id,
+    CAST(BASE_NAME AS VARCHAR(500)) AS base_name,
+    CAST(CATEGORY AS VARCHAR(500)) AS category,
+    CAST(IS_ACTIVE AS BOOLEAN) AS is_active,
+    CAST(LEVEL AS VARCHAR(500)) AS level,
+    CAST(TRACK AS VARCHAR(500)) AS track,
+    CAST(SENIORITY_LEVEL AS VARCHAR(500)) AS seniority_level,
+    CAST(SENIORITY_INDEX AS INT) AS seniority_index,
+    CAST(_CREATED_MICROS AS DATETIME) AS created_at,
+    CAST(_UPDATED_MICROS AS DATETIME) AS updated_at
+FROM {{ source("interviews", "job_functions") }}

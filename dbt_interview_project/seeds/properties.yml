@@ -1,0 +1,9 @@
+seeds:
+  - name: raw_to_stg
+    description: "A seed file containing raw to stage column names and data types"
+    column_types:
+      raw_table_name: VARCHAR
+      raw_column_name: VARCHAR
+      target_column_name: VARCHAR
+      target_data_type: VARCHAR
+      target_order_num: INT
