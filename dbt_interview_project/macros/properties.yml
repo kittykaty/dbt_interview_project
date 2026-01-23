@@ -1,0 +1,6 @@
+version: 2
+macros: 
+    - name: seed_filter
+      arguments:
+       - name: table_name
+       - name: seed_name

@@ -1,14 +1,22 @@
-SELECT
-    CAST(_OFFSET AS BIGINT) AS offset,
-    CAST(ID AS VARCHAR(500)) AS id,
-    CAST(IS_ACTIVE AS BOOLEAN) AS is_active,
-    CAST(IS_PRIMARY AS BOOLEAN) AS is_primary,
-    CAST(IS_KEY AS BOOLEAN) AS is_key,
-    CAST(IS_KEY_REASON AS BOOLEAN) AS is_key_reason,
-    CAST(TYPE AS VARCHAR(500)) AS type,
-    CAST(NAME AS VARCHAR(500)) AS name,
-    CAST(URL AS VARCHAR(500)) AS url,
-    CAST(PARENT_ID AS VARCHAR(500)) AS parent_id,
-    CAST(_CREATED_MICROS AS DATETIME) AS created_at,
-    CAST(_UPDATED_MICROS AS DATETIME) AS updated_at
-FROM {{ source("interviews", "skills") }}
+{{ stg_model(
+    source_name='interviews', 
+    table_name='skills', 
+    seed='raw_to_stg', 
+    updated_column='updated_at', 
+    sort_col='offset'
+) }}
+
+-- SELECT
+--     CAST(_OFFSET AS BIGINT) AS offset,
+--     CAST(ID AS VARCHAR(500)) AS id,
+--     CAST(IS_ACTIVE AS BOOLEAN) AS is_active,
+--     CAST(IS_PRIMARY AS BOOLEAN) AS is_primary,
+--     CAST(IS_KEY AS BOOLEAN) AS is_key,
+--     CAST(IS_KEY_REASON AS BOOLEAN) AS is_key_reason,
+--     CAST(TYPE AS VARCHAR(500)) AS type,
+--     CAST(NAME AS VARCHAR(500)) AS name,
+--     CAST(URL AS VARCHAR(500)) AS url,
+--     CAST(PARENT_ID AS VARCHAR(500)) AS parent_id,
+--     CAST(_CREATED_MICROS AS DATETIME) AS created_at,
+--     CAST(_UPDATED_MICROS AS DATETIME) AS updated_at
+-- FROM {{ source("interviews", "skills") }}
