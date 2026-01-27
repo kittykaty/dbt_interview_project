@@ -1,7 +1,10 @@
 version: 2
 
 models:
+  - name: stg_skill
+    description: '{{ doc("stg_skill_desc")}}'
   - name: stg_candidate
+    description: '{{ doc("stg_candidate_desc")}}'
     columns: 
       - name: OFFSET
         description: "Primary key"
@@ -9,6 +12,7 @@ models:
           - unique
           - not_null
   - name: stg_interview
+    description: '{{ doc("stg_interview_desc")}}'
     columns:
       - name: status
         description: "Interview status (draft, requested, in_progress, pending_feedback, cancelled, scheduled, completed)"
@@ -16,3 +20,7 @@ models:
           - accepted_values:
               arguments:
                 values: ['DRAFT', 'REQUESTED', 'IN_PROGRESS', 'PENING_FEEDBACK', 'CANCELLED', 'SCHEDULED', 'COMPLETED']
+  - name: stg_job_function
+    description: '{{ doc("stg_job_function_desc")}}'
+  - name: stg_employee
+    description: '{{ doc("stg_employee_desc")}}'

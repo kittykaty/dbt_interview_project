@@ -1,0 +1,13 @@
+vesrion: 3
+
+models:
+  - name: latest_interview
+    description: This table contains the latest state of interviews
+    columns:
+      - name: interview_id
+        description: This is a unique identifier for the interview
+      - name: status
+        description: Current status of the interview event
+        
+      - name: interviewer_id
+        description: The employee who conducted the interview

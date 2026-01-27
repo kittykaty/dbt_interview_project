@@ -2,7 +2,7 @@ sources:
   - name: interviews
     database: dbt_project_db
     schema: raw
-    description: A clone of a Snowflake interviews database
+    description: '{{ doc("interview_platform")}}'
     config:
       freshness:
         warn_after:
