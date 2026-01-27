@@ -1,0 +1,18 @@
+version: 2
+
+models:
+  - name: stg_candidate
+    columns: 
+      - name: OFFSET
+        description: "Primary key"
+        tests:
+          - unique
+          - not_null
+  - name: stg_interview
+    columns:
+      - name: status
+        description: "Interview status (draft, requested, in_progress, pending_feedback, cancelled, scheduled, completed)"
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['DRAFT', 'REQUESTED', 'IN_PROGRESS', 'PENING_FEEDBACK', 'CANCELLED', 'SCHEDULED', 'COMPLETED']

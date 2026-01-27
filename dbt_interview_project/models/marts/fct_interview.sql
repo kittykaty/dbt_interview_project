@@ -68,4 +68,4 @@ durations AS (
 )
 
 SELECT *
-FROM joined
+FROM durations

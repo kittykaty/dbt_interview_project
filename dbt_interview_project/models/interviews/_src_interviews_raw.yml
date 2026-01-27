@@ -12,22 +12,47 @@ sources:
           count: 20
           period: day
     tables:
-      - name: candidates # make it warn
+      - name: candidates
         description: Raw candidates data
         config:
-          freshness: 
+          freshness: # make it warn
             warn_after:
               count: 5
               period: day
             error_after:
               count: 15
               period: day
+        columns: # generic tests on candidate_id and _offset columns
+          - name: candidate_id
+            data_tests:
+              - not_null
+          - name: _offset
+            data_tests:
+              - unique
+              - not_null
       - name: employees
         description: Raw employees data
-      - name: interviews   # make it error
+      - name: interviews
         description: Raw interviews data
+        columns:
+        - name: _offset
+          data_tests:
+            - unique
+            - not_null
+        - name: candidate_id
+          data_tests:
+            - relationships: #test foreign key exsists in parent table
+                arguments:
+                  to: source('interviews', 'candidates')
+                  field: candidate_id
+        - name: interviewer_id
+          data_tests:
+            - relationships: #test foreign key exsists in parent table
+                arguments:
+                  to: source('interviews', 'employees')
+                  field: employee_id        
         config:
-          freshness: 
+          freshness: # make it error
             warn_after:
               count: 3
               period: day
@@ -36,7 +61,17 @@ sources:
               period: day   
       - name: job_functions
         description: Raw job_functions data
+        columns:
+        - name: _offset
+          data_tests:
+            - unique
+            - not_null
         freshness: null
       - name: skills
         description: Raw skills data
+        columns:
+        - name: _offset
+          data_tests:
+            - unique
+            - not_null
         freshness: null
