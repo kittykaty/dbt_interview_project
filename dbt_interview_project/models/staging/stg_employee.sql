@@ -1,3 +1,4 @@
+with macro_data as (
 {{ stg_model(
     source_name='interviews', 
     table_name='employees', 
@@ -5,20 +6,22 @@
     updated_column='updated_at', 
     sort_col='offset'
 ) }}
+)
 
-
--- SELECT
---     CAST(_OFFSET AS BIGINT) AS offset,
---     CAST(EMPLOYEE_ID AS VARCHAR(500)) AS id,
---     CAST(JOB_FUNCTION_ID AS VARCHAR(500)) AS job_function_id,
---     CAST(PRIMARY_SKILL_ID AS VARCHAR(500)) AS primary_skill_id,
---     CAST(PRODUCTION_CATEGORY AS VARCHAR(500)) AS production_category,
---     CAST(EMPLOYMENT_STATUS AS VARCHAR(500)) AS employment_status,
---     CAST(ORG_CATEGORY AS VARCHAR(500)) AS org_category,
---     CAST(ORG_CATEGORY_TYPE AS VARCHAR(500)) AS org_category_type,
---     CAST(WORK_START_MICROS AS DATE) AS work_start_date,
---     CAST(WORK_END_MICROS AS DATE) AS work_end_date,
---     CAST(IS_ACTIVE AS BOOLEAN) AS is_active,
---     CAST(_CREATED_MICROS AS DATETIME) AS created_at,
---     CAST(_UPDATED_MICROS AS DATETIME) AS updated_at
--- FROM {{ source("interviews", "employees") }}
+SELECT
+  offset,
+  id,
+  job_function_id,
+  primary_skill_id,
+  production_category,
+  employment_status,
+  org_category,
+  work_start_date,
+  work_end_date,
+  CASE WHEN work_end_date IS NOT NULL THEN FALSE ELSE is_active END AS is_active,
+  created_at,
+  updated_at,
+  _ROW_VALID_FROM,
+  _ROW_VALID_TO,
+  _ROW_IS_ACTIVE
+FROM macro_data

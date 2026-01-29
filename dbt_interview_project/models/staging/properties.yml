@@ -19,7 +19,7 @@ models:
         tests:
           - accepted_values:
               arguments:
-                values: ['DRAFT', 'REQUESTED', 'IN_PROGRESS', 'PENING_FEEDBACK', 'CANCELLED', 'SCHEDULED', 'COMPLETED']
+                values: ['DRAFT', 'REQUESTED', 'IN_PROGRESS', 'PENDING_FEEDBACK', 'CANCELLED', 'SCHEDULED', 'COMPLETED']
   - name: stg_job_function
     description: '{{ doc("stg_job_function_desc")}}'
   - name: stg_employee

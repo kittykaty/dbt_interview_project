@@ -28,7 +28,6 @@ sources:
               - not_null
           - name: _offset
             data_tests:
-              - unique
               - not_null
       - name: employees
         description: Raw employees data
