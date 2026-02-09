@@ -16,6 +16,7 @@ SELECT
   production_category,
   employment_status,
   org_category,
+  org_category_type,
   work_start_date,
   work_end_date,
   CASE WHEN work_end_date IS NOT NULL THEN FALSE ELSE is_active END AS is_active,
