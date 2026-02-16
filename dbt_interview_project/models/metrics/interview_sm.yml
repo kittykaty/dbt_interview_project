@@ -17,9 +17,17 @@ semantic_models:
         expr: cast(finished_datetime as DATETIME)
         type_params:
           time_granularity: day
+      - name: finished_month
+        type: time
+        expr: cast(finished_datetime as DATETIME)
+        type_params:
+          time_granularity: month 
       - name: is_cancelled
         type: categorical
         expr: case when status = 'CANCELLED' then True else False end
+      - name: is_completed
+        type: categorical
+        expr: case when status = 'COMPLETED' then True else False end
       - name: interviewer_filter
         type: categorical
         expr: interviewer_offset
@@ -32,6 +40,11 @@ semantic_models:
         description: "current number of all involved interviewers"
         agg: count_distinct
         expr: interviewer_offset
+      - name: feedback_delay_hours
+        description: "feedback delay time"
+        agg: average
+        expr: feedback_delay_hours
+
 
 
 metrics:
@@ -48,6 +61,13 @@ metrics:
     type_params:
       measure: num_of_interviewers
     label: total_number_of_interviewers
+
+  - name: feedback_hours
+    description: "average hours for feedback completion"
+    type: simple
+    type_params:
+      measure: feedback_delay_hours
+    label: feedback_hours
 
   - name: ratio_of_cancelled_interviews
     description: "number of cancelled interviews compared to all interviews"
@@ -89,3 +109,28 @@ metrics:
   #         alias:
   #         filter: {{Dimension('')}}
   #         offset_window:
+
+saved_queries:
+  - name: interviewer_performance
+    description: "shows the number of completed interviews by interviewer, and feedback time"
+    label: 
+    config:
+      cache:
+        enabled: true
+        tags: 'sm'
+    query_params:
+      metrics:
+        - total_number_of_interviews
+        - feedback_hours
+      group_by:
+        - Entity('interviewer')
+        - TimeDimension('interview__finished_month', 'month')
+      where:
+        - "{{Dimension('interview__is_completed')}} = true"
+        - "{{TimeDimension('interview__finished_month', 'month')}} = '2025-02-01'"
+    # exports:
+    #   - name: my_export
+    #     config:
+    #       export_as: table 
+    #       alias: my_export_alias
+    #       schema: my_export_schema_name
