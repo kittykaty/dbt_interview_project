@@ -1,0 +1,91 @@
+semantic_models:
+  - name: interview
+    description:
+    model: ref('fct_interview')
+    defaults:
+      agg_time_dimension: finished_at
+    entities:
+      - name: interview
+        type: primary
+        expr: ID
+      - name: interviewer
+        type: foreign
+        expr: interviewer_offset
+    dimensions:
+      - name: finished_at
+        type: time
+        expr: cast(finished_datetime as DATETIME)
+        type_params:
+          time_granularity: day
+      - name: is_cancelled
+        type: categorical
+        expr: case when status = 'CANCELLED' then True else False end
+      - name: interviewer_filter
+        type: categorical
+        expr: interviewer_offset
+    measures:
+      - name: num_of_interviews
+        description: "current number of all interviews"
+        agg: count_distinct
+        expr: ID
+      - name: num_of_interviewers
+        description: "current number of all involved interviewers"
+        agg: count_distinct
+        expr: interviewer_offset
+
+
+metrics:
+  - name: total_number_of_interviews
+    description: "total number of interviews"
+    type: simple
+    type_params:
+      measure: num_of_interviews
+    label: total_number_of_interviews
+
+  - name: total_number_of_interviewers
+    description: "total number of interviewers/employees"
+    type: simple
+    type_params:
+      measure: num_of_interviewers
+    label: total_number_of_interviewers
+
+  - name: ratio_of_cancelled_interviews
+    description: "number of cancelled interviews compared to all interviews"
+    type: ratio
+    type_params:
+      numerator: 
+        name: total_number_of_interviews
+        filter: "{{Dimension('interview__is_cancelled')}} = true"
+      denominator:
+        name: total_number_of_interviews
+    label: ratio_of_cancelled_interviews
+  
+  # - name: avg_number_of_interviews_per_interviewer
+  #   description: "average number of interviews per interviewer"
+  #   type: derived
+  #   expr: num_of_interviews
+  #   calculation_method: average
+  #   group_by:
+  #     - Entity('interviewer')
+  #   label: avg_number_of_interviews_per_interviewer
+ 
+  # - name:
+  #   description:
+  #   type: cumulative
+  #   label:
+  #   type_params:
+  #     measure: 1 month
+  #     window:
+
+  
+  # - name:
+  #   description:
+  #   type: derived
+  #   label:
+  #   type_params:
+  #     expr:
+  #     metrics:
+  #       - name:
+  #         alias:
+  #         filter: {{Dimension('')}}
+  #         offset_window:

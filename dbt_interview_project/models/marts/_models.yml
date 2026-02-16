@@ -1,0 +1,12 @@
+models:
+  - name: dim_date
+    description: An existing date dimension model used as a time spine.
+    time_spine:
+      standard_granularity_column: date
+    columns:
+      - name: date
+        granularity: day
+      - name: day_of_week
+        granularity: day
+      - name: year
+        granularity: year
