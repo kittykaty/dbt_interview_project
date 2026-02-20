@@ -128,9 +128,9 @@ saved_queries:
       where:
         - "{{Dimension('interview__is_completed')}} = true"
         - "{{TimeDimension('interview__finished_month', 'month')}} = '2025-02-01'"
-    # exports:
-    #   - name: my_export
-    #     config:
-    #       export_as: table 
-    #       alias: my_export_alias
-    #       schema: my_export_schema_name
+    exports:
+      - name: monthly_interviewer_performance_export
+        config:
+          export_as: table 
+          alias: interviewer_performance_export
+          schema: mart
